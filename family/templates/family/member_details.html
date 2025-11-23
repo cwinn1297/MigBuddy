@@ -1,0 +1,110 @@
+{% extends "core/app/base.html" %}
+
+{% block title %}Edit Family Member - {{ member.get_full_name }} - MigBuddy{% endblock %}
+
+{% block app_content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm text-[#606e8a] dark:text-gray-400 mb-6">
+        <a href="{% url 'dashboard' %}" class="hover:text-primary">Home</a>
+        <span>/</span>
+        <a href="{% url 'family_member_list' %}" class="hover:text-primary">Family Members</a>
+        <span>/</span>
+        <span class="text-[#111318] dark:text-white">{{ member.get_full_name }}</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="flex flex-wrap justify-between items-start gap-6 mb-8">
+        <div>
+            <h1 class="text-4xl font-black tracking-tight">Personal Information</h1>
+            <p class="mt-2 text-[#606e8a] dark:text-gray-400">
+                Review and edit the personal details for this applicant. All information must match official documents.
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <a href="{% url 'family_member_list' %}" 
+               class="h-12 px-6 flex items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-surface-dark text-text-light dark:text-text-dark font-bold hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                Cancel
+            </a>
+            <button type="submit" form="family-member-form"
+                    class="h-12 px-8 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition">
+                Save Changes
+            </button>
+        </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark p-8">
+        <form id="family-member-form" method="post" class="space-y-8">
+            {% csrf_token %}
+            {{ form.media }} {# if using widgets like date picker #}
+
+            <!-- Full Name -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-base font-medium mb-2">First Name</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.first_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label class="block text-base font-medium mb-2">Last Name</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.last_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Birth Details -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-base font-medium mb-2">Date of Birth</label>
+                    {{ form.date_of_birth }}
+                </div>
+                <div>
+                    <label class="block text-base font-medium mb-2">Country of Birth</label>
+                    {{ form.country_of_birth }}
+                </div>
+            </div>
+
+            <!-- Gender & Marital Status -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-base font-medium mb-2">Gender</label>
+                    {{ form.gender }}
+                </div>
+                <div>
+                    <label class="block text-base font-medium mb-2">Marital Status</label>
+                    {{ form.marital_status }}
+                </div>
+            </div>
+
+            <!-- Nationality & SEVIS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-base font-medium mb-2">Nationality</label>
+                    {{ form.nationality }}
+                </div>
+                <div>
+                    <label class="flex items-center gap-1 text-base font-medium mb-2">
+                        SEVIS ID 
+                        <span class="material-symbols-outlined text-sm text-[#606e8a] cursor-help" title="Found on Form I-20 or DS-2019">help</span>
+                    </label>
+                    {{ form.sevis_id }}
+                    <p class="mt-1 text-xs text-[#606e8a]">e.g., N0000000000 (optional for non-students)</p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Save Button (bottom fixed on mobile) -->
+    <div class="mt-10 flex justify-end">
+        <button type="submit" form="family-member-form"
+                class="h-14 px-10 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition shadow-lg">
+            Save and Continue
+        </button>
+    </div>
+</div>
+{% endblock %}

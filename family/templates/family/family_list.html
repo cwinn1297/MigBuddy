@@ -1,0 +1,120 @@
+{% extends "core/app/base.html" %}
+
+{% block title %}Family Members - MigBuddy{% endblock %}
+
+{% block app_content %}
+<div class="max-w-6xl mx-auto">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm text-[#606e8a] dark:text-gray-400 mb-6">
+        <a href="{% url 'dashboard' %}" class="hover:text-primary">Home</a>
+        <span>/</span>
+        <a href="#" class="hover:text-primary">My Application</a>
+        <span>/</span>
+        <span class="text-[#111318] dark:text-white">Family Members</span>
+    </div>
+
+    <!-- Header -->
+    <div class="flex flex-wrap justify-between items-start gap-6 mb-8">
+        <div>
+            <h1 class="text-4xl font-black tracking-tight">Manage Family Members</h1>
+            <p class="text-[#606e8a] dark:text-gray-400 mt-2">
+                Primary Applicant: {{ user.get_full_name }} | Case ID: {{ application.case_id|default:"ABC123456789" }}
+            </p>
+        </div>
+        <a href="{% url 'family_member_add' %}" 
+           class="flex items-center gap-2 h-11 px-6 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition shadow-sm">
+            <span class="material-symbols-outlined text-lg">add</span>
+            <span>Add Family Member</span>
+        </a>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="mb-8">
+        <div class="flex items-center border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-background-dark focus-within:ring-2 focus-within:ring-primary/50">
+            <span class="pl-4 text-2xl text-[#606e8a] dark:text-gray-400">
+                <span class="material-symbols-outlined">search</span>
+            </span>
+            <input type="text" placeholder="Search by family member name..." 
+                   class="w-full px-4 py-3.5 bg-transparent focus:outline-none text-base">
+        </div>
+    </div>
+
+    <!-- Family Members Table -->
+    <div class="rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[800px]">
+                <thead>
+                    <tr class="border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-background-dark/80">
+                        <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Full Name</th>
+                        <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Relationship</th>
+                        <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Date of Birth</th>
+                        <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Status</th>
+                        <th class="px-6 py-4 text-left text-sm font-medium text-[#606e8a] dark:text-gray-400">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                    {% for member in family_members %}
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
+                        <td class="px-6 py-5 text-sm font-medium text-[#111318] dark:text-white">
+                            {{ member.get_full_name }}
+                        </td>
+                        <td class="px-6 py-5 text-sm text-[#606e8a] dark:text-gray-400">
+                            {{ member.get_relationship_display }}
+                        </td>
+                        <td class="px-6 py-5 text-sm text-[#606e8a] dark:text-gray-400">
+                            {{ member.date_of_birth|date:"d/m/Y" }}
+                        </td>
+                        <td class="px-6 py-5">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full 
+                                    {% if member.status == 'approved' %}bg-status-green
+                                    {% elif member.status == 'in_progress' %}bg-status-yellow
+                                    {% else %}bg-status-gray{% endif %}">
+                                </span>
+                                <span class="text-sm font-medium 
+                                    {% if member.status == 'approved' %}text-status-green
+                                    {% elif member.status == 'in_progress' %}text-status-yellow
+                                    {% else %}text-status-gray{% endif %}">
+                                    {{ member.get_status_display }}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5">
+                            <a href="{% url 'family_member_detail' member.id %}" 
+                               class="text-primary font-medium hover:underline text-sm">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-16 text-[#606e8a] dark:text-gray-400">
+                            <div class="flex flex-col items-center gap-6">
+                                <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-5xl text-primary">group_add</span>
+                                </div>
+                                <div class="text-center max-w-sm">
+                                    <p class="text-lg font-bold text-[#111318] dark:text-white">No family members added yet</p>
+                                    <p class="mt-2 text-base">Add your spouse or children to include them in your visa application.</p>
+                                </div>
+                                <a href="{% url 'family_member_add' %}" 
+                                   class="mt-4 flex items-center gap-2 px-6 h-11 bg-primary text-white font-bold rounded-lg hover:bg-primary/90">
+                                    <span class="material-symbols-outlined">add</span>
+                                    Add Family Member
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Responsive hiding (optional – Tailwind @container) -->
+    <style>
+        @container (max-width: 900px) { .hide-md { display: none; } }
+        @container (max-width: 700px) { .hide-sm { display: none; } }
+    </style>
+</div>
+{% endblock %}

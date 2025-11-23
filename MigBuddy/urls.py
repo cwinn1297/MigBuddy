@@ -31,4 +31,7 @@ urlpatterns = [
 
     # Applications/Forms
     path('applications/', include('applications.urls', namespace='forms')),
+
+    # Family
+    path('family/', include('family.urls')),
 ]

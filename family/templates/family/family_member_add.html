@@ -1,0 +1,119 @@
+{% extends "core/app/base.html" %}
+
+{% block title %}Add Family Member - MigBuddy{% endblock %}
+
+{% block app_content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm text-[#606e8a] dark:text-gray-400 mb-6">
+        <a href="{% url 'dashboard' %}" class="hover:text-primary">Home</a>
+        <span>/</span>
+        <a href="{% url 'family_members' %}" class="hover:text-primary">Family Members</a>
+        <span>/</span>
+        <span class="text-[#111318] dark:text-white">Add New</span>
+    </div>
+
+    <!-- Header -->
+    <div class="mb-10">
+        <h1 class="text-4xl font-black tracking-tight mb-3">Add Family Member</h1>
+        <p class="text-[#606e8a] dark:text-gray-400 text-lg">
+            Add your spouse, children, or parents to include them in your visa application.
+        </p>
+    </div>
+
+    <!-- Form Card -->
+    <form method="post" class="bg-white dark:bg-surface-dark rounded-xl border border-[#dbdfe6] dark:border-gray-700 p-8 shadow-sm">
+        {% csrf_token %}
+
+        <!-- Full Name -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">
+                    First Name <span class="text-red-500">*</span>
+                </label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.first_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">
+                    Last Name <span class="text-red-500">*</span>
+                </label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.last_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Relationship & Date of Birth -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">
+                    Relationship to You <span class="text-red-500">*</span>
+                </label>
+                {{ form.relationship }}
+            </div>
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">
+                    Date of Birth <span class="text-red-500">*</span>
+                </label>
+                {{ form.date_of_birth }}
+            </div>
+        </div>
+
+        <!-- Countries -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">
+                    Country of Birth <span class="text-red-500">*</span>
+                </label>
+                {{ form.country_of_birth }}
+            </div>
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">
+                    Nationality <span class="text-red-500">*</span>
+                </label>
+                {{ form.nationality }}
+            </div>
+        </div>
+
+        <!-- Gender & Marital Status -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">Gender</label>
+                {{ form.gender }}
+            </div>
+            <div>
+                <label class="block text-base font-medium mb-2 text-[#111318] dark:text-white">Marital Status</label>
+                {{ form.marital_status }}
+            </div>
+        </div>
+
+        <!-- SEVIS ID (optional) -->
+        <div class="mb-10">
+            <label class="flex items-center gap-2 text-base font-medium mb-2 text-[#111318] dark:text-white">
+                SEVIS ID 
+                <span class="material-symbols-outlined text-sm text-[#606e8a] cursor-help" title="Only required for F-1, M-1, or J-1 student/exchange visas">help</span>
+            </label>
+            {{ form.sevis_id }}
+            <p class="mt-2 text-sm text-[#606e8a] dark:text-gray-400">
+                e.g., N0001234567 — Leave blank if not applicable
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end gap-4 pt-6 border-t border-[#dbdfe6] dark:border-gray-700">
+            <a href="{% url 'family_members' %}"
+               class="h-12 px-8 flex items-center justify-center rounded-lg border border-[#dbdfe6] dark:border-gray-700 bg-white dark:bg-surface-dark font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                Cancel
+            </a>
+            <button type="submit"
+                    class="h-12 px-10 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition shadow-md">
+                Add Family Member
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

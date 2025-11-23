@@ -17,7 +17,7 @@
 
         <div class="flex items-center gap-4">
             {% if user.is_authenticated %}
-                <a href="{% url 'app:dashboard' %}" class="text-sm font-medium text-primary hover:underline">Dashboard</a>
+                <a href="{% url 'dashboard' %}" class="text-sm font-medium text-primary hover:underline">Dashboard</a>
                 <a href="{% url 'logout' %}" class="text-sm font-medium hover:text-primary">Logout</a>
             {% else %}
                 <a href="{% url 'login' %}" class="h-10 px-6 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90">
