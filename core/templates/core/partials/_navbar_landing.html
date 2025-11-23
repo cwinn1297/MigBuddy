@@ -1,0 +1,29 @@
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-[#f0f1f5] dark:border-gray-800">
+    <div class="flex items-center justify-between w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div class="flex items-center gap-4">
+            <div class="text-primary">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+                </svg>
+            </div>
+            <h2 class="text-lg font-bold tracking-tight">MigBuddy</h2>
+        </div>
+
+        <div class="hidden md:flex items-center gap-9">
+            <a href="#features" class="text-sm font-medium hover:text-primary">Features</a>
+            <a href="#pricing" class="text-sm font-medium hover:text-primary">Pricing</a>
+            <a href="#faq" class="text-sm font-medium hover:text-primary">FAQ</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'app:dashboard' %}" class="text-sm font-medium text-primary hover:underline">Dashboard</a>
+                <a href="{% url 'logout' %}" class="text-sm font-medium hover:text-primary">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="h-10 px-6 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</header>

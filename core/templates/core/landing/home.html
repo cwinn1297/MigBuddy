@@ -1,0 +1,62 @@
+{% extends "core/landing/base.html" %}
+
+{% block title %}MigBuddy - Simplify Your US Visa Application{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="@container py-16 md:py-24">
+    <div class="flex min-h-[520px] flex-col gap-8 bg-cover bg-center bg-no-repeat rounded-2xl items-start justify-end p-8 md:p-12
+                bg-gradient-to-t from-black/50 to-black/20"
+         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAW-4BHeu20DdpYv09G0ulTnxj8YzNlXB7rrVJAnF8o9oEKYkMvwjOM9qAob57-NtpMCnjEEl2ly90bJqRHxaVVBkRKjZTEwYDgN2KqufLZvSxx_v_MmaoUoKPo2OsiEgiFOlloapfKjN_Y8cP-sW3dM5VzOynHfu4I1hiuCHOphWAxN11v9jhzcxXZvfp-gJNljeVO8O3683yClMEcQcVxquKhnUmOcdvTaT8g2jkNbIWQaNZuNNqm2TnFfJCtAG0oxdeckdP2oQU');">
+        <div class="max-w-3xl">
+            <h1 class="text-white text-4xl md:text-6xl font-black tracking-tight">
+                Simplify Your US Visa Application Journey
+            </h1>
+            <p class="text-gray-100 text-lg md:text-xl mt-4">
+                Navigate the complex visa process with our guided, secure, and user-friendly platform.
+            </p>
+        </div>
+        <div class="flex flex-wrap gap-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="h-12 px-8 flex items-center justify-center rounded-lg bg-primary text-white font-bold hover:bg-primary/90">
+                    Go to Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}" class="h-12 px-8 flex items-center justify-center rounded-lg bg-primary text-white font-bold hover:bg-primary/90">
+                    Start Application
+                </a>
+            {% endif %}
+            <a href="#how-it-works" class="h-12 px-8 flex items-center justify-center rounded-lg bg-white/20 backdrop-blur border border-white/30 text-white font-bold hover:bg-white/30">
+                How It Works
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Us -->
+<section id="features" class="py-20 text-center">
+    <h2 class="text-4xl font-black">Why Choose Us?</h2>
+    <p class="mt-4 text-[#606e8a] dark:text-gray-400 max-w-2xl mx-auto">
+        Our platform is designed to make your visa application process as smooth and stress-free as possible.
+    </p>
+    <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Your 4 feature cards – copy-paste from original -->
+        <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-left">
+            <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit">
+                <span class="material-symbols-outlined">shield_lock</span>
+            </div>
+            <h3 class="mt-4 font-bold">Error-Free Forms</h3>
+            <p class="text-sm text-[#606e8a] dark:text-gray-400 mt-2">Our smart forms catch common mistakes before you submit.</p>
+        </div>
+        <!-- Repeat for the other 3 -->
+    </div>
+</section>
+
+<!-- How It Works -->
+<section id="how-it-works" class="py-20">
+    <h2 class="text-center text-3xl font-bold mb-12">How It Works</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Your 4 steps – copy-paste from original -->
+    </div>
+</section>
+{% endblock %}

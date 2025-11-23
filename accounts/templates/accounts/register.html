@@ -1,108 +1,215 @@
-{% extends "core/base.html" %}
-{% block title %}Register{% endblock %}
-
-{% block content %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-      <div class="card shadow-lg border-0">
-        <div class="card-body p-5">
-          <h2 class="card-title text-center mb-4 fw-bold">Create Your Account</h2>
-          <p class="text-center text-muted mb-4">Join MigBuddy to start your immigration journey</p>
-
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-              </div>
-            {% endfor %}
-          {% endif %}
-
-          <form method="post">
-            {% csrf_token %}
-            
-            <div class="mb-3">
-              <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
-              {{ form.username }}
-              {% if form.username.errors %}
-                <div class="text-danger small">{{ form.username.errors }}</div>
-              {% endif %}
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
-                {{ form.first_name }}
-                {% if form.first_name.errors %}
-                  <div class="text-danger small">{{ form.first_name.errors }}</div>
-                {% endif %}
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
-                {{ form.last_name }}
-                {% if form.last_name.errors %}
-                  <div class="text-danger small">{{ form.last_name.errors }}</div>
-                {% endif %}
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="{{ form.middle_name.id_for_label }}" class="form-label">Middle Name (Optional)</label>
-              {{ form.middle_name }}
-              {% if form.middle_name.errors %}
-                <div class="text-danger small">{{ form.middle_name.errors }}</div>
-              {% endif %}
-            </div>
-
-            <div class="mb-3">
-              <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
-              {{ form.email }}
-              {% if form.email.errors %}
-                <div class="text-danger small">{{ form.email.errors }}</div>
-              {% endif %}
-            </div>
-
-            <div class="mb-3">
-              <label for="{{ form.phone.id_for_label }}" class="form-label">Phone Number (Optional)</label>
-              {{ form.phone }}
-              {% if form.phone.errors %}
-                <div class="text-danger small">{{ form.phone.errors }}</div>
-              {% endif %}
-            </div>
-
-            <div class="mb-3">
-              <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
-              {{ form.password1 }}
-              {% if form.password1.errors %}
-                <div class="text-danger small">{{ form.password1.errors }}</div>
-              {% endif %}
-              {% if form.password1.help_text %}
-                <div class="form-text">{{ form.password1.help_text }}</div>
-              {% endif %}
-            </div>
-
-            <div class="mb-4">
-              <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
-              {{ form.password2 }}
-              {% if form.password2.errors %}
-                <div class="text-danger small">{{ form.password2.errors }}</div>
-              {% endif %}
-              {% if form.password2.help_text %}
-                <div class="form-text">{{ form.password2.help_text }}</div>
-              {% endif %}
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 py-2 mb-3 fw-semibold">Create Account</button>
-          </form>
-
-          <div class="text-center">
-            <p class="mb-0">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Login here</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Your Account - US Visa Application Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0d59f2",
+            "background-light": "#f5f6f8",
+            "background-dark": "#101622",
+          },
+          fontFamily: {
+            "display": ["Public Sans", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#111318] dark:text-white">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f1f5] dark:border-b-white/10 px-4 sm:px-10 py-3">
+<div class="flex items-center gap-4 text-[#111318] dark:text-white">
+<a href="{% url 'landing' %}" class="flex items-center gap-4">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
 </div>
-{% endblock %}
+<h1 class="text-lg font-bold leading-tight tracking-[-0.015em]">MigBuddy</h1>
+</a>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="{% url 'landing' %}">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary" href="#">Contact</a>
+</div>
+<a href="{% url 'login' %}" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90">
+<span class="truncate">Sign In</span>
+</a>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-10 sm:py-20 px-4">
+<div class="flex flex-col w-full max-w-md">
+<div class="flex flex-col items-center gap-2 mb-8 text-center">
+<h2 class="text-[#333333] dark:text-gray-100 text-3xl sm:text-4xl font-black leading-tight tracking-[-0.033em]">Create Your Account</h2>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Start your US Visa application process.</p>
+</div>
 
+<!-- Error Messages -->
+{% if form.errors %}
+<div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-lg p-4 mb-6 text-sm">
+{% for field, errors in form.errors.items %}
+{% for error in errors %}
+<p>{{ error }}</p>
+{% endfor %}
+{% endfor %}
+</div>
+{% endif %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 rounded-lg p-4 mb-6 text-sm">
+{{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="bg-white dark:bg-background-dark border border-gray-200 dark:border-white/10 rounded-xl shadow-sm p-6 sm:p-8">
+<form method="post" class="flex flex-col gap-6">
+{% csrf_token %}
+
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.username.id_for_label }}">Username</label>
+{{ form.username }}
+{% if form.username.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.username.errors.0 }}</p>
+{% endif %}
+</div>
+
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.email.id_for_label }}">Email Address</label>
+{{ form.email }}
+{% if form.email.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.email.errors.0 }}</p>
+{% endif %}
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.first_name.id_for_label }}">First Name</label>
+{{ form.first_name }}
+{% if form.first_name.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.first_name.errors.0 }}</p>
+{% endif %}
+</div>
+
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.last_name.id_for_label }}">Last Name</label>
+{{ form.last_name }}
+{% if form.last_name.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.last_name.errors.0 }}</p>
+{% endif %}
+</div>
+</div>
+
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.middle_name.id_for_label }}">Middle Name (Optional)</label>
+{{ form.middle_name }}
+{% if form.middle_name.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.middle_name.errors.0 }}</p>
+{% endif %}
+</div>
+
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.phone.id_for_label }}">Phone Number (Optional)</label>
+{{ form.phone }}
+{% if form.phone.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.phone.errors.0 }}</p>
+{% endif %}
+</div>
+
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.password1.id_for_label }}">Password</label>
+<div class="relative">
+{{ form.password1 }}
+<button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary/80" onclick="togglePassword('{{ form.password1.id_for_label }}')">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+{% if form.password1.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.password1.errors.0 }}</p>
+{% endif %}
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Use 8 or more characters with a mix of letters, numbers &amp; symbols.</p>
+</div>
+
+<div class="flex flex-col">
+<label class="text-[#333333] dark:text-gray-200 text-sm font-medium leading-normal pb-2" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+<div class="relative">
+{{ form.password2 }}
+<button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary/80" onclick="togglePassword('{{ form.password2.id_for_label }}')">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+{% if form.password2.errors %}
+<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ form.password2.errors.0 }}</p>
+{% endif %}
+</div>
+
+<button type="submit" class="flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:focus:ring-offset-background-dark transition-colors duration-200">
+<span class="truncate">Create Account</span>
+</button>
+<p class="text-center text-sm text-gray-600 dark:text-gray-300">
+By creating an account, you agree to our 
+<a class="font-medium text-primary hover:underline" href="#">Terms of Service</a> and 
+<a class="font-medium text-primary hover:underline" href="#">Privacy Policy</a>.
+</p>
+</form>
+</div>
+<div class="mt-6 text-center">
+<p class="text-sm text-gray-600 dark:text-gray-300">
+Already have an account? 
+<a class="font-bold text-primary hover:underline" href="{% url 'login' %}">Sign In</a>
+</p>
+</div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-solid border-t-[#f0f1f5] dark:border-t-white/10 mt-auto">
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 max-w-6xl mx-auto px-4 sm:px-10 py-6 text-sm text-[#606e8a] dark:text-slate-400">
+<p>© 2024 MigBuddy. All Rights Reserved.</p>
+<div class="flex gap-6">
+<a href="#" class="hover:text-primary">Terms of Service</a>
+<a href="#" class="hover:text-primary">Privacy Policy</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+
+<script>
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
+}
+</script>
+</body>
+</html>

@@ -15,18 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from core import views as core_views
+from accounts import views as accounts_views
 
 urlpatterns = [
 
     # Admin site
     path('admin/', admin.site.urls),
 
-    # Core
+    # Core (landing, login, logout, dashboard)
     path('', include('core.urls')),
 
-    # Accounts
+    # Accounts (register, settings)
     path('accounts/', include('accounts.urls')),
 
-    # Applications
+    # Applications/Forms
     path('applications/', include('applications.urls', namespace='forms')),
 ]

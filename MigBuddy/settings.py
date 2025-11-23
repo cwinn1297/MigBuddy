@@ -92,6 +92,12 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'accounts.User'
 
+# Custom authentication backend to allow email or username login
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailOrUsernameBackend',  # Custom backend for email/username login
+    'django.contrib.auth.backends.ModelBackend',  # Default backend as fallback
+]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -5,17 +5,37 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def landing(request):
-    return render(request, 'core/landing.html')
+    return render(request, 'core/landing/home.html')
+
+def register(request):
+    return render(request, 'core/auth/register.html')
+
+def password_reset(request):
+    return render(request, 'core/auth/password_reset.html')
+
 
 def login_view(request):
+    # If user is already logged in, redirect to home
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    error_message = None
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return redirect('home')
-    return render(request, 'core/login.html')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+        
+        if username and password:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                error_message = "Invalid email or password. Please try again."
+        else:
+            error_message = "Please enter both email and password."
+    
+    context = {'error_message': error_message}
+    return render(request, 'core/auth/login.html', context)
 
 @login_required
 def home(request):
@@ -28,7 +48,7 @@ def home(request):
         'has_applications': len(applications) > 0,
         'applications_count': len(applications),
     }
-    return render(request, 'core/home.html', context)
+    return render(request, 'core/app/dashboard.html', context)
 
 def logout_view(request):
     logout(request)

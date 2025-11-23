@@ -1,0 +1,72 @@
+{% extends "core/app/base.html" %}
+
+{% block title %}Dashboard - MigBuddy{% endblock %}
+
+{% block app_content %}
+<div class="flex flex-wrap justify-between items-center gap-4">
+    <div>
+        <h1 class="text-3xl font-bold tracking-tight">Your Visa Application Dashboard</h1>
+        <p class="text-subtext-light dark:text-subtext-dark mt-1">Welcome back, {{ user.first_name|default:"User" }}</p>
+    </div>
+</div>
+
+<!-- Action Required Banner -->
+<div class="mt-8 rounded-lg border border-warning/50 bg-warning/10 dark:bg-warning/20 p-5 flex flex-col @[480px]:flex-row justify-between items-start @[480px]:items-center gap-4">
+    <div class="flex items-start gap-4">
+        <span class="material-symbols-outlined text-warning text-3xl">priority_high</span>
+        <div>
+            <p class="font-bold">Action Required</p>
+            <p class="text-sm text-subtext-light dark:text-subtext-dark">Please complete the following task to proceed.</p>
+        </div>
+    </div>
+    <a href="#" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 font-medium">
+        Upload Passport Photo
+    </a>
+</div>
+
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-8">
+        <!-- Case Overview -->
+        <section>
+            <h2 class="text-xl font-bold">Case Overview</h2>
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Case Details Card -->
+                <div class="rounded-xl border bg-card-light dark:bg-card-dark p-6">
+                    <h3 class="font-semibold">Case Details</h3>
+                    <ul class="mt-4 space-y-3 text-sm">
+                        <li class="flex justify-between"><span class="text-subtext-light dark:text-subtext-dark">Case Number:</span> <span class="font-medium">{{ application.case_number }}</span></li>
+                        <li class="flex justify-between"><span class="text-subtext-light dark:text-subtext-dark">Applicant:</span> <span class="font-medium">{{ user.get_full_name }}</span></li>
+                        <li class="flex justify-between"><span class="text-subtext-light dark:text-subtext-dark">Visa Type:</span> <span class="font-medium">H-1B</span></li>
+                        <li class="flex justify-between"><span class="text-subtext-light dark:text-subtext-dark">Priority Date:</span> <span class="font-medium">15 Apr 2023</span></li>
+                    </ul>
+                </div>
+                <!-- Quick Actions -->
+                <div class="rounded-xl border bg-card-light dark:bg-card-dark p-6">
+                    <h3 class="font-semibold">Quick Actions</h3>
+                    <div class="mt-4 space-y-3">
+                        <a href="#" class="block w-full text-center py-3 bg-primary text-white rounded-lg hover:bg-primary/90">View/Edit Application</a>
+                        <a href="#" class="block w-full text-center py-3 border border-primary text-primary rounded-lg hover:bg-primary/10">Upload Documents</a>
+                        <a href="#" class="block w-full text-center py-3 border border-primary text-primary rounded-lg hover:bg-primary/10">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section>
+            <h2 class="text-xl font-bold">Recent Activity</h2>
+            <div class="mt-4 rounded-xl border bg-card-light dark:bg-card-dark p-6">
+                <!-- Your activity list here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Progress Timeline -->
+    <div>
+        <h2 class="text-xl font-bold">Application Progress</h2>
+        <div class="mt-4 rounded-xl border bg-card-light dark:bg-card-dark p-6">
+            <!-- Your timeline here -->
+        </div>
+    </div>
+</div>
+{% endblock %}

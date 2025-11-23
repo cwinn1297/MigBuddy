@@ -1,0 +1,56 @@
+{% extends "core/auth/base.html" %}
+
+{% block title %}Sign In - MigBuddy{% endblock %}
+
+{% block auth_content %}
+<div class="text-center mb-10">
+    <h1 class="text-4xl font-black tracking-tight">Sign In to Your Application</h1>
+    <p class="mt-2 text-[#606e8a] dark:text-slate-400">Access your US visa application and check your case status.</p>
+</div>
+
+{% if form.errors %}
+    <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-lg text-sm text-center">
+        Invalid email or password. Please try again.
+    </div>
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="space-y-6">
+        <label class="block">
+            <span class="text-sm font-medium mb-2 block">Email Address</span>
+            <input name="username" type="email" required
+                   class="w-full h-14 px-4 rounded-lg border border-[#dbdfe6] dark:border-slate-700 bg-white dark:bg-background-dark focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-[#606e8a]"
+                   placeholder="Enter your email address"/>
+        </label>
+
+        <label class="block">
+            <span class="text-sm font-medium mb-2 block">Password</span>
+            <div class="relative">
+                <input name="password" type="password" required
+                       class="w-full h-14 px-4 pr-12 rounded-lg border border-[#dbdfe6] dark:border-slate-700 bg-white dark:bg-background-dark focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-[#606e8a]"
+                       placeholder="Enter your password"/>
+                <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#606e8a]">
+                    <span class="material-symbols-outlined">visibility</span>
+                </button>
+            </div>
+        </label>
+    </div>
+
+    <div class="flex justify-end mt-3">
+        <a href="{% url 'password_reset' %}" class="text-sm font-medium text-primary hover:underline">
+            Forgot Password?
+        </a>
+    </div>
+
+    <button type="submit" class="mt-8 w-full h-14 flex items-center justify-center gap-2 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition">
+        <span class="material-symbols-outlined">lock</span>
+        <span>Sign In Securely</span>
+    </button>
+</form>
+
+<div class="mt-10 text-center text-sm text-[#606e8a] dark:text-slate-400">
+    Don't have an account?
+    <a href="{% url 'register' %}" class="font-bold text-primary hover:underline">Register Here</a>
+</div>
+{% endblock %}

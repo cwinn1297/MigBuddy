@@ -1,0 +1,55 @@
+<aside class="w-64 flex flex-col border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4">
+    <div class="flex items-center gap-2 pb-6">
+        <span class="material-symbols-outlined text-primary text-3xl">language</span>
+        <h1 class="text-xl font-bold">MigBuddy</h1>
+    </div>
+
+    <div class="flex h-full flex-col justify-between">
+        <div class="flex flex-col gap-6">
+            <!-- User Profile -->
+            <div class="flex items-center gap-3">
+                <div class="bg-cover bg-center rounded-full size-10 border-2 border-primary"
+                     style="background-image: url('{{ user.profile.photo.url|default:'https://via.placeholder.com/40' }}')"></div>
+                <div>
+                    <p class="font-medium">{{ user.get_full_name|default:user.email }}</p>
+                    <p class="text-sm text-subtext-light dark:text-subtext-dark">{{ user.email }}</p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex flex-col gap-1">
+                <a href="{% url 'dashboard' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg {% if active == 'dashboard' %}bg-primary/10 text-primary dark:bg-primary/20{% else %}hover:bg-black/5 dark:hover:bg-white/5{% endif %}">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="text-sm font-medium">Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5">
+                    <span class="material-symbols-outlined">description</span>
+                    <span class="text-sm font-medium">My Applications</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5">
+                    <span class="material-symbols-outlined">folder</span>
+                    <span class="text-sm font-medium">Documents</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5">
+                    <span class="material-symbols-outlined">cloud_sync</span>
+                    <span class="text-sm font-medium">Case Status</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5">
+                    <span class="material-symbols-outlined">diversity_1</span>
+                    <span class="text-sm font-medium">Family</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="text-sm font-medium">Settings</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="border-t border-border-light dark:border-border-dark pt-4 mt-4">
+            <a href="{% url 'logout' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-red-600 dark:text-red-400">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="text-sm font-medium">Logout</span>
+            </a>
+        </div>
+    </div>
+</aside>

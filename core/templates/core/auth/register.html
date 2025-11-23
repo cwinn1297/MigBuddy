@@ -1,0 +1,47 @@
+{% extends "core/auth/base.html" %}
+
+{% block title %}Create Account - MigBuddy{% endblock %}
+
+{% block auth_content %}
+<div class="text-center mb-10">
+    <h1 class="text-4xl font-black tracking-tight">Create Your Account</h1>
+    <p class="mt-2 text-[#606e8a] dark:text-slate-400">Start your US visa application today</p>
+</div>
+
+<form method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    <div class="space-y-6">
+        <div class="grid grid-cols-2 gap-4">
+            <label class="block">
+                <span class="text-sm font-medium mb-2 block">First Name</span>
+                <input name="first_name" type="text" required class="w-full h-14 px-4 rounded-lg border..." placeholder="Jane"/>
+            </label>
+            <label class="block">
+                <span class="text-sm font-medium mb-2 block">Last Name</span>
+                <input name="last_name" type="text" required class="w-full h-14 px-4 rounded-lg border..." placeholder="Doe"/>
+            </label>
+        </div>
+        <label class="block">
+            <span class="text-sm font-medium mb-2 block">Email Address</span>
+            <input name="email" type="email" required class="w-full h-14 px-4 rounded-lg border..." placeholder="jane@example.com"/>
+        </label>
+        <label class="block">
+            <span class="text-sm font-medium mb-2 block">Password</span>
+            <input name="password1" type="password" required class="w-full h-14 px-4 rounded-lg border..."/>
+        </label>
+        <label class="block">
+            <span class="text-sm font-medium mb-2 block">Confirm Password</span>
+            <input name="password2" type="password" required class="w-full h-14 px-4 rounded-lg border..."/>
+        </label>
+    </div>
+
+    <button type="submit" class="mt-8 w-full h-14 bg-primary text-white font-bold rounded-lg hover:bg-primary/90">
+        Create Account
+    </button>
+</form>
+
+<div class="mt-8 text-center text-sm text-[#606e8a] dark:text-slate-400">
+    Already have an account?
+    <a href="{% url 'login' %}" class="font-bold text-primary hover:underline">Sign In</a>
+</div>
+{% endblock %}

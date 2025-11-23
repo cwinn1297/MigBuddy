@@ -1,29 +1,27 @@
-{% extends "core/base.html" %}
-{% block title %}Accounts{% endblock %}
+{% extends "core/home.html" %}
+{% block page_title %}Accounts{% endblock %}
 
-{% block content %}
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow-sm">
-        <div class="card-body p-5">
-          <h1 class="card-title mb-4">Accounts</h1>
-          
-          {% if user.is_authenticated %}
-            <p class="lead">Welcome, {{ user.get_full_name|default:user.username }}!</p>
-            <p>You are logged in as <strong>{{ user.username }}</strong></p>
-            <div class="mt-4">
-              <a href="{% url 'home' %}" class="btn btn-primary me-2">Go to Dashboard</a>
-              <a href="{% url 'logout' %}" class="btn btn-outline-secondary">Logout</a>
-            </div>
-          {% else %}
-            <p class="lead">Please log in or create an account to continue.</p>
-            <div class="mt-4">
-              <a href="{% url 'login' %}" class="btn btn-primary me-2">Login</a>
-              <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary">Register</a>
-            </div>
-          {% endif %}
-        </div>
+{% block main_content %}
+<div class="flex flex-col gap-6">
+  <div class="flex justify-center">
+    <div class="w-full max-w-2xl">
+      <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm p-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Accounts</h1>
+        
+        {% if user.is_authenticated %}
+          <p class="text-xl text-gray-700 dark:text-gray-300 mb-2">Welcome, {{ user.get_full_name|default:user.username }}!</p>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">You are logged in as <strong class="text-gray-900 dark:text-white">{{ user.username }}</strong></p>
+          <div class="flex gap-3">
+            <a href="{% url 'home' %}" class="flex items-center justify-center rounded-md h-10 px-6 bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">Go to Dashboard</a>
+            <a href="{% url 'logout' %}" class="flex items-center justify-center rounded-md h-10 px-6 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-medium transition-colors">Logout</a>
+          </div>
+        {% else %}
+          <p class="text-xl text-gray-700 dark:text-gray-300 mb-6">Please log in or create an account to continue.</p>
+          <div class="flex gap-3">
+            <a href="{% url 'login' %}" class="flex items-center justify-center rounded-md h-10 px-6 bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">Login</a>
+            <a href="{% url 'accounts:register' %}" class="flex items-center justify-center rounded-md h-10 px-6 border border-primary text-primary hover:bg-primary/10 text-sm font-medium transition-colors">Register</a>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

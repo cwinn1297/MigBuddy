@@ -1,74 +1,178 @@
+{% extends "core/home.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>USCIS Forms - Fillable Check</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 2rem; background: #f5f7fa; }
-        h1 { color: #1a3c6e; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background: #0066cc; color: white; }
-        .fillable { color: green; font-weight: bold; }
-        .not-fillable { color: red; font-weight: bold; }
-        .btn { padding: 10px 16px; background: #0066cc; color: white; text-decoration: none; border-radius: 5px; }
-        .btn:hover { background: #0052a3; }
-        .warning { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <h1>USCIS Forms in static/forms/</h1>
+{% block page_title %}Start a New Application{% endblock %}
 
-    {% if not pdf_files %}
-        <p>No PDFs found in <code>applications/static/forms/</code></p>
-    {% else %}
-        <table>
-            <tr>
-                <th>Form Name</th>
-                <th>Size</th>
-                <th>Fillable?</th>
-                <th>Fields Count</th>
-                <th>Sample Field Names</th>
-                <th>Action</th>
-            </tr>
-            {% for f in pdf_files %}
-            <tr>
-                <td><strong>{{ f.name }}</strong></td>
-                <td>{{ f.size_mb }} MB</td>
-                <td>
-                    {% if f.is_fillable %}
-                        <span class="fillable">YES</span>
-                    {% else %}
-                        <span class="not-fillable">NO</span>
-                    {% endif %}
-                </td>
-                <td>{{ f.num_fields }}</td>
-                <td>
-                    {% if f.field_sample %}
-                        <small>{{ f.field_sample|join:", " }}{% if f.num_fields > 5 %}...{% endif %}</small>
-                    {% else %}
-                        <em>none</em>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if f.is_fillable %}
-                    <a href="{% url 'forms:open_form' f.name %}" class="btn">Open Form →</a>
-                    {% else %}
-                    <a href="{% url 'forms:open_form' f.name %}?view_pdf=true" target="_blank" class="btn">View PDF →</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+{% block extra_head %}
+<script>
+  // Form name to category and description mapping
+  const formInfo = {
+    'i-129f.pdf': {
+      name: 'I-129F: Petition for Alien Fiancé(e)',
+      category: 'Family-Based',
+      categoryClass: 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300',
+      description: 'For U.S. citizens to bring their foreign-citizen fiancé(e) to the U.S. to marry.'
+    },
+    'ds-160.pdf': {
+      name: 'DS-160: Online Nonimmigrant Visa Application',
+      category: 'Travel & Tourism',
+      categoryClass: 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300',
+      description: 'For temporary visitors to the U.S. for tourism, business, or medical treatment.'
+    },
+    'i-130.pdf': {
+      name: 'I-130: Petition for Alien Relative',
+      category: 'Family-Based',
+      categoryClass: 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300',
+      description: 'To help an eligible relative immigrate to the United States and get a Green Card.'
+    },
+    'i-765.pdf': {
+      name: 'I-765: Application for Employment Authorization',
+      category: 'Work Visas',
+      categoryClass: 'bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300',
+      description: 'To request employment authorization and an Employment Authorization Document (EAD).'
+    }
+  };
 
-        <div class="warning">
-            <strong>Important:</strong> Only PDFs with <span class="fillable">YES</span> and >0 fields can be auto-filled with Python.<br>
-            Your current i-129f.pdf is likely the <strong>non-fillable</strong> version (printed/scanned).<br><br>
-            <strong>Fix it now:</strong><br>
-            <code>
-            curl -L -o applications/static/forms/i-129f.pdf https://www.uscis.gov/sites/default/files/document/forms/i-129f.pdf
-            </code>
+  function getFormInfo(filename) {
+    const lowerName = filename.toLowerCase();
+    for (const [key, info] of Object.entries(formInfo)) {
+      if (lowerName.includes(key.replace('.pdf', ''))) {
+        return info;
+      }
+    }
+    // Default info
+    const formName = filename.replace('.pdf', '').replace('-', ' ').toUpperCase();
+    return {
+      name: `${formName}: Application Form`,
+      category: 'General',
+      categoryClass: 'bg-gray-100 dark:bg-gray-900/40 text-gray-800 dark:text-gray-300',
+      description: 'USCIS immigration form.'
+    };
+  }
+
+  function filterTable() {
+    const searchInput = document.getElementById('search-input');
+    const filter = searchInput.value.toLowerCase();
+    const table = document.getElementById('forms-table');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const text = row.textContent || row.innerText;
+      if (text.toLowerCase().indexOf(filter) > -1) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  }
+</script>
+{% endblock %}
+
+{% block main_content %}
+        <!-- Page Header -->
+        <div class="flex flex-wrap justify-between gap-4">
+          <div class="flex flex-col gap-2">
+            <p class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Start a New Application</p>
+            <p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">Find the form you need to begin your U.S. visa application process. Use the search or filters to narrow your results.</p>
+          </div>
         </div>
-    {% endif %}
-</body>
-</html>
+
+        <!-- Search and Filters -->
+        <div class="flex flex-col sm:flex-row gap-4 items-center">
+          <div class="w-full sm:flex-1">
+            <label class="flex flex-col min-w-40 h-12 w-full">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <div class="text-gray-500 dark:text-gray-400 flex border-none bg-white dark:bg-gray-800 items-center justify-center pl-4 rounded-l-lg border-r-0 border border-gray-200 dark:border-gray-700">
+                  <span class="material-symbols-outlined" style="font-size: 24px;">search</span>
+                </div>
+                <input id="search-input" type="text" onkeyup="filterTable()" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-white dark:bg-gray-800 h-full placeholder:text-gray-500 dark:placeholder:text-gray-400 px-4 text-base font-normal leading-normal border border-gray-200 dark:border-gray-700 border-l-0 focus:border-l-0" placeholder="Search for a form (e.g., DS-160, I-130)" value=""/>
+              </div>
+            </label>
+          </div>
+          <div class="flex gap-2 self-start sm:self-center">
+            <div class="flex h-12 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 pl-4 pr-4 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+              <p class="text-gray-800 dark:text-gray-300 text-sm font-medium leading-normal">All Forms</p>
+            </div>
+            <div class="flex h-12 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 pl-4 pr-4 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+              <p class="text-gray-800 dark:text-gray-300 text-sm font-medium leading-normal">Nonimmigrant</p>
+            </div>
+            <div class="flex h-12 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 pl-4 pr-4 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+              <p class="text-gray-800 dark:text-gray-300 text-sm font-medium leading-normal">Immigrant</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forms Table -->
+        <div class="py-3 @container">
+          {% if not pdf_files %}
+            <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center">
+              <span class="material-symbols-outlined text-gray-400 text-6xl mb-4">description</span>
+              <p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal">No PDFs found in <code class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">applications/static/forms/</code></p>
+            </div>
+          {% else %}
+            <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+              <table class="w-full" id="forms-table">
+                <thead class="bg-gray-50 dark:bg-gray-900/50">
+                  <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th class="table-col-form-name px-4 py-3 text-left text-gray-800 dark:text-gray-300 w-2/5 text-sm font-medium leading-normal">Form Name</th>
+                    <th class="table-col-category px-4 py-3 text-left text-gray-800 dark:text-gray-300 w-1/5 text-sm font-medium leading-normal">Category</th>
+                    <th class="table-col-description px-4 py-3 text-left text-gray-800 dark:text-gray-300 w-2/5 text-sm font-medium leading-normal">Description</th>
+                    <th class="table-col-action px-4 py-3 text-left text-gray-800 dark:text-gray-300 w-auto text-sm font-medium leading-normal">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for f in pdf_files %}
+                    {% with form_info=formInfo|default_if_none:{} %}
+                    <tr class="border-t border-gray-200 dark:border-gray-700">
+                      <td class="table-col-form-name h-[72px] px-4 py-2 text-gray-900 dark:text-white text-sm font-medium leading-normal">
+                        <div class="flex flex-col">
+                          <span id="form-name-{{ forloop.counter0 }}">{{ f.name|default:f.name }}</span>
+                          {% if not f.is_fillable %}
+                            <span class="text-xs text-warning mt-1">⚠️ Non-fillable PDF</span>
+                          {% endif %}
+                        </div>
+                      </td>
+                      <td class="table-col-category h-[72px] px-4 py-2">
+                        <div id="form-category-{{ forloop.counter0 }}" class="inline-flex items-center justify-center rounded-md h-7 px-3 bg-gray-100 dark:bg-gray-900/40 text-gray-800 dark:text-gray-300 text-xs font-medium">General</div>
+                      </td>
+                      <td class="table-col-description h-[72px] px-4 py-2 text-gray-600 dark:text-gray-400 text-sm font-normal leading-normal">
+                        <span id="form-description-{{ forloop.counter0 }}">USCIS immigration form. {% if f.num_fields > 0 %}{{ f.num_fields }} fillable fields available.{% else %}No fillable fields detected.{% endif %}</span>
+                      </td>
+                      <td class="table-col-action h-[72px] px-4 py-2">
+                        {% if f.is_fillable %}
+                          <a href="{% url 'forms:open_form' f.name %}" class="flex items-center justify-center rounded-lg h-9 px-4 text-primary dark:text-primary text-sm font-bold leading-normal hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">Start</a>
+                        {% else %}
+                          <a href="{% url 'forms:open_form' f.name %}?view_pdf=true" target="_blank" class="flex items-center justify-center rounded-lg h-9 px-4 text-primary dark:text-primary text-sm font-bold leading-normal hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">View PDF</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endwith %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endif %}
+        </div>
+
+<script>
+  // Update form names, categories, and descriptions on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('#forms-table tbody tr');
+    rows.forEach((row, index) => {
+      const formNameCell = row.querySelector('[id^="form-name-"]');
+      const categoryCell = row.querySelector('[id^="form-category-"]');
+      const descriptionCell = row.querySelector('[id^="form-description-"]');
+      
+      if (formNameCell && categoryCell && descriptionCell) {
+        const originalText = formNameCell.textContent.trim();
+        const info = getFormInfo(originalText);
+        
+        formNameCell.textContent = info.name;
+        categoryCell.textContent = info.category;
+        categoryCell.className = `inline-flex items-center justify-center rounded-md h-7 px-3 ${info.categoryClass} text-xs font-medium`;
+        descriptionCell.textContent = info.description;
+      }
+    });
+  });
+</script>
+{% endblock %}
