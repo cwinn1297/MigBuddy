@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+{% block title %}Accounts{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-5">
+          <h1 class="card-title mb-4">Accounts</h1>
+          
+          {% if user.is_authenticated %}
+            <p class="lead">Welcome, {{ user.get_full_name|default:user.username }}!</p>
+            <p>You are logged in as <strong>{{ user.username }}</strong></p>
+            <div class="mt-4">
+              <a href="{% url 'home' %}" class="btn btn-primary me-2">Go to Dashboard</a>
+              <a href="{% url 'logout' %}" class="btn btn-outline-secondary">Logout</a>
+            </div>
+          {% else %}
+            <p class="lead">Please log in or create an account to continue.</p>
+            <div class="mt-4">
+              <a href="{% url 'login' %}" class="btn btn-primary me-2">Login</a>
+              <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary">Register</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

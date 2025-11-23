@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=migbuddy
+      - POSTGRES_USER=migbuddy
+      - POSTGRES_PASSWORD=migbuddy
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U migbuddy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=migbuddy
+      - DB_USER=migbuddy
+      - DB_PASSWORD=migbuddy
+      - DB_PORT=5432
+      - DEBUG=True
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+
