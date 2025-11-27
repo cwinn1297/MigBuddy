@@ -91,9 +91,6 @@ DATABASES = {
     }
 }
 
-
-AUTH_USER_MODEL = 'accounts.User'
-
 # Custom authentication backend to allow email or username login
 AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailOrUsernameBackend',  # Custom backend for email/username login
