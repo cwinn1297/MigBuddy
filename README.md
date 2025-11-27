@@ -16,7 +16,7 @@
 
 - **Backend**: Django 5.2.8
 - **Database**: PostgreSQL 15
-- **PDF Processing**: PyPDF2
+- **PDF Processing**: pypdf
 - **Frontend**: Bootstrap 5, HTML5, CSS3
 - **Containerization**: Docker, Docker Compose
 - **Python**: 3.10+
