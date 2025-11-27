@@ -1,28 +1,29 @@
 {% extends "core/app/base.html" %}
 
-{% block title %}Dashboard - MigBuddy{% endblock %}
+{% block title %}Dashboard - VisaPilot{% endblock %}
 
 {% block app_content %}
 <div class="flex flex-wrap justify-between items-center gap-4">
     <div>
-        <h1 class="text-3xl font-bold tracking-tight">Your Visa Application Dashboard</h1>
-        <p class="text-subtext-light dark:text-subtext-dark mt-1">Welcome back, {{ user.first_name|default:"User" }}</p>
+        <h1 class="text-3xl font-bold tracking-tight">Welcome, {{ user.first_name|default:"User" }}!</h1>
     </div>
 </div>
 
 <!-- Action Required Banner -->
+{% if not user.family_members.all %}
 <div class="mt-8 rounded-lg border border-warning/50 bg-warning/10 dark:bg-warning/20 p-5 flex flex-col @[480px]:flex-row justify-between items-start @[480px]:items-center gap-4">
     <div class="flex items-start gap-4">
         <span class="material-symbols-outlined text-warning text-3xl">priority_high</span>
         <div>
-            <p class="font-bold">Action Required</p>
-            <p class="text-sm text-subtext-light dark:text-subtext-dark">Please complete the following task to proceed.</p>
+            <p class="font-bold text-xl">Get Started</p>
+            <p class="text-sm text-subtext-light dark:text-subtext-dark">Please add your family members.</p>
         </div>
     </div>
-    <a href="#" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 font-medium">
-        Upload Passport Photo
+    <a href="{% url 'family_members' %}" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 font-medium">
+        Family
     </a>
 </div>
+{% endif %}
 
 <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
     <div class="lg:col-span-2 space-y-8">

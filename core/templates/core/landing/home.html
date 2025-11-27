@@ -1,18 +1,19 @@
 {% extends "core/landing/base.html" %}
 
-{% block title %}MigBuddy - Simplify Your US Visa Application{% endblock %}
+{% block title %}VisaPilot - Simplify Your US Visa Application{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
 <div class="@container py-16 md:py-24">
-    <div class="flex min-h-[520px] flex-col gap-8 bg-cover bg-center bg-no-repeat rounded-2xl items-start justify-end p-8 md:p-12
-                bg-gradient-to-t from-black/50 to-black/20"
-         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAW-4BHeu20DdpYv09G0ulTnxj8YzNlXB7rrVJAnF8o9oEKYkMvwjOM9qAob57-NtpMCnjEEl2ly90bJqRHxaVVBkRKjZTEwYDgN2KqufLZvSxx_v_MmaoUoKPo2OsiEgiFOlloapfKjN_Y8cP-sW3dM5VzOynHfu4I1hiuCHOphWAxN11v9jhzcxXZvfp-gJNljeVO8O3683yClMEcQcVxquKhnUmOcdvTaT8g2jkNbIWQaNZuNNqm2TnFfJCtAG0oxdeckdP2oQU');">
-        <div class="max-w-3xl">
-            <h1 class="text-white text-4xl md:text-6xl font-black tracking-tight">
+    <div class="flex flex-col gap-10 bg-cover bg-center bg-no-repeat rounded-3xl items-start justify-end
+                p-8 md:p-16 min-h-[540px] md:min-h-[580px] max-w-full md:max-w-[98vw] w-full
+                bg-gradient-to-t from-black/60 to-black/20"
+         style="background-image: url('https://images.pexels.com/photos/290386/pexels-photo-290386.jpeg');">
+        <div class="max-w-5xl w-full">
+            <h1 class="text-white text-3xl md:text-5xl lg:text-6xl font-black tracking-tight">
                 Simplify Your US Visa Application Journey
             </h1>
-            <p class="text-gray-100 text-lg md:text-xl mt-4">
+            <p class="text-gray-100 text-lg md:text-xl mt-4 max-w-2xl">
                 Navigate the complex visa process with our guided, secure, and user-friendly platform.
             </p>
         </div>
@@ -41,7 +42,7 @@
     </p>
     <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Your 4 feature cards – copy-paste from original -->
-        <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-left">
+        <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
             <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit">
                 <span class="material-symbols-outlined">shield_lock</span>
             </div>
@@ -49,14 +50,74 @@
             <p class="text-sm text-[#606e8a] dark:text-gray-400 mt-2">Our smart forms catch common mistakes before you submit.</p>
         </div>
         <!-- Repeat for the other 3 -->
+        <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+            <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit">
+                <span class="material-symbols-outlined">attach_money</span>
+            </div>
+            <h3 class="mt-4 font-bold">Money Back Guarantee</h3>
+            <p class="text-sm text-[#606e8a] dark:text-gray-400 mt-2">If there is an error in your application, we will refund your money.</p>
+        </div>
+        <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+            <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit">
+                <span class="material-symbols-outlined">attach_money</span>
+            </div>
+            <h3 class="mt-4 font-bold">Unbeatable Prices</h3>
+            <p class="text-sm text-[#606e8a] dark:text-gray-400 mt-2">Don't overpay for your visa application.</p>
+        </div>
+        <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+            <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit">
+                <span class="material-symbols-outlined">notification_important</span>
+            </div>
+            <h3 class="mt-4 font-bold">Case Status Tracking</h3>
+            <p class="text-sm text-[#606e8a] dark:text-gray-400 mt-2">Get real-time updates on your case status.</p>
+        </div>
     </div>
 </section>
 
 <!-- How It Works -->
 <section id="how-it-works" class="py-20">
     <h2 class="text-center text-3xl font-bold mb-12">How It Works</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
         <!-- Your 4 steps – copy-paste from original -->
+    <!-- Step 1 -->
+    <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+        <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit mb-4">
+            <span class="material-symbols-outlined">person_add</span>
+        </div>
+        <h3 class="font-bold mb-2">Create an Account</h3>
+        <p class="text-sm text-[#606e8a] dark:text-gray-400">Sign up securely to start your US visa application process.</p>
+    </div>
+    <!-- Step 2 -->
+    <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+        <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit mb-4">
+            <span class="material-symbols-outlined">group</span>
+        </div>
+        <h3 class="font-bold mb-2">Add Family Information</h3>
+        <p class="text-sm text-[#606e8a] dark:text-gray-400">Enter your own information and add details for any accompanying family members if needed.</p>
+    </div>
+    <!-- Step 3 -->
+    <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+        <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit mb-4">
+            <span class="material-symbols-outlined">travel_explore</span>
+        </div>
+        <h3 class="font-bold mb-2">Choose Your Visa Type</h3>
+        <p class="text-sm text-[#606e8a] dark:text-gray-400">Select the visa type that matches your journey to the United States.</p>
+    </div>
+    <!-- Step 4 -->
+    <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+        <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit mb-4">
+            <span class="material-symbols-outlined">list_alt</span>
+        </div>
+        <h3 class="font-bold mb-2">Fill Out Questionnaire</h3>
+        <p class="text-sm text-[#606e8a] dark:text-gray-400">Answer guided questions so your application is complete and error-free.</p>
+    </div>
+    <!-- Step 5 -->
+    <div class="p-6 bg-white dark:bg-gray-900/50 border border-[#dbdfe6] dark:border-gray-800 rounded-xl text-center flex flex-col items-center">
+        <div class="text-primary bg-primary/10 p-3 rounded-lg w-fit mb-4">
+            <span class="material-symbols-outlined">print</span>
+        </div>
+        <h3 class="font-bold mb-2">Print, Sign & Mail</h3>
+        <p class="text-sm text-[#606e8a] dark:text-gray-400">Print, sign your form, and mail it to USCIS with confidence.</p>
     </div>
 </section>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "core/app/base.html" %}
 
-{% block title %}Family Members - MigBuddy{% endblock %}
+{% block title %}Family Members - VisaPilot{% endblock %}
 
 {% block app_content %}
 <div class="max-w-6xl mx-auto">
@@ -48,7 +48,6 @@
                         <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Full Name</th>
                         <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Relationship</th>
                         <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Date of Birth</th>
-                        <th class="px-6 py-4 text-left text-sm font-medium text-[#111318] dark:text-white">Status</th>
                         <th class="px-6 py-4 text-left text-sm font-medium text-[#606e8a] dark:text-gray-400">Actions</th>
                     </tr>
                 </thead>
@@ -65,25 +64,22 @@
                             {{ member.date_of_birth|date:"d/m/Y" }}
                         </td>
                         <td class="px-6 py-5">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full 
-                                    {% if member.status == 'approved' %}bg-status-green
-                                    {% elif member.status == 'in_progress' %}bg-status-yellow
-                                    {% else %}bg-status-gray{% endif %}">
-                                </span>
-                                <span class="text-sm font-medium 
-                                    {% if member.status == 'approved' %}text-status-green
-                                    {% elif member.status == 'in_progress' %}text-status-yellow
-                                    {% else %}text-status-gray{% endif %}">
-                                    {{ member.get_status_display }}
-                                </span>
+                            <div class="flex items-center gap-4">
+                                <a href="{% url 'family_member_details' member.FamilyMemberID %}" 
+                                   class="text-primary font-medium hover:underline text-sm">
+                                    View Details
+                                </a>
+                                <form method="post" action="{% url 'family_member_delete' member.FamilyMemberID %}" 
+                                      class="inline" 
+                                      onsubmit="return confirm('Are you sure you want to delete {{ member.get_full_name }}? This action cannot be undone.');">
+                                    {% csrf_token %}
+                                    <button type="submit" 
+                                            class="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-base">delete</span>
+                                        Delete
+                                    </button>
+                                </form>
                             </div>
-                        </td>
-                        <td class="px-6 py-5">
-                            <a href="{% url 'family_member_detail' member.id %}" 
-                               class="text-primary font-medium hover:underline text-sm">
-                                View Details
-                            </a>
                         </td>
                     </tr>
                     {% empty %}

@@ -1,6 +1,6 @@
 {% extends "core/auth/base.html" %}
 
-{% block title %}Create Account - MigBuddy{% endblock %}
+{% block title %}Create Account - VisaPilot{% endblock %}
 
 {% block auth_content %}
 <div class="text-center mb-10">
@@ -8,37 +8,108 @@
     <p class="mt-2 text-[#606e8a] dark:text-slate-400">Start your US visa application today</p>
 </div>
 
+<!-- Error Messages -->
+{% if form and form.errors %}
+<div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-lg text-sm">
+    <p class="font-medium mb-2">Please correct the following errors:</p>
+    <ul class="list-disc list-inside space-y-1">
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if form and form.non_field_errors %}
+<div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 rounded-lg text-sm">
+    {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if form %}
 <form method="post" action="{% url 'register' %}">
     {% csrf_token %}
     <div class="space-y-6">
-        <div class="grid grid-cols-2 gap-4">
-            <label class="block">
-                <span class="text-sm font-medium mb-2 block">First Name</span>
-                <input name="first_name" type="text" required class="w-full h-14 px-4 rounded-lg border..." placeholder="Jane"/>
-            </label>
-            <label class="block">
-                <span class="text-sm font-medium mb-2 block">Last Name</span>
-                <input name="last_name" type="text" required class="w-full h-14 px-4 rounded-lg border..." placeholder="Doe"/>
-            </label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2" for="{{ form.first_name.id_for_label }}">First Name</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.first_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2" for="{{ form.last_name.id_for_label }}">Last Name</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.last_name.errors.0 }}</p>
+                {% endif %}
+            </div>
         </div>
-        <label class="block">
-            <span class="text-sm font-medium mb-2 block">Email Address</span>
-            <input name="email" type="email" required class="w-full h-14 px-4 rounded-lg border..." placeholder="jane@example.com"/>
-        </label>
-        <label class="block">
-            <span class="text-sm font-medium mb-2 block">Password</span>
-            <input name="password1" type="password" required class="w-full h-14 px-4 rounded-lg border..."/>
-        </label>
-        <label class="block">
-            <span class="text-sm font-medium mb-2 block">Confirm Password</span>
-            <input name="password2" type="password" required class="w-full h-14 px-4 rounded-lg border..."/>
-        </label>
+        
+        <div class="flex flex-col">
+            <label class="text-sm font-medium mb-2" for="{{ form.middle_name.id_for_label }}">Middle Name (Optional)</label>
+            {{ form.middle_name }}
+            {% if form.middle_name.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.middle_name.errors.0 }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="flex flex-col">
+            <label class="text-sm font-medium mb-2" for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.username.errors.0 }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="flex flex-col">
+            <label class="text-sm font-medium mb-2" for="{{ form.email.id_for_label }}">Email Address</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.email.errors.0 }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="flex flex-col">
+            <label class="text-sm font-medium mb-2" for="{{ form.phone.id_for_label }}">Phone Number (Optional)</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.phone.errors.0 }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="flex flex-col">
+            <label class="text-sm font-medium mb-2" for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.password1.errors.0 }}</p>
+            {% endif %}
+            <p class="mt-1 text-xs text-[#606e8a] dark:text-slate-400">Use 8 or more characters with a mix of letters, numbers & symbols.</p>
+        </div>
+        
+        <div class="flex flex-col">
+            <label class="text-sm font-medium mb-2" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.password2.errors.0 }}</p>
+            {% endif %}
+        </div>
     </div>
 
     <button type="submit" class="mt-8 w-full h-14 bg-primary text-white font-bold rounded-lg hover:bg-primary/90">
         Create Account
     </button>
 </form>
+{% else %}
+<div class="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-300 rounded-lg text-sm">
+    <p>Form not available. Please refresh the page.</p>
+</div>
+{% endif %}
 
 <div class="mt-8 text-center text-sm text-[#606e8a] dark:text-slate-400">
     Already have an account?

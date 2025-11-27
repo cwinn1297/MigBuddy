@@ -21,7 +21,8 @@ def register(request):
             user = form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created successfully for {username}! You are now logged in.')
-            login(request, user)  # Automatically log in the user after registration
+            # Specify backend since multiple authentication backends are configured
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('home')
     else:
         form = UserRegistrationForm()

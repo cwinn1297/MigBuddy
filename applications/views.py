@@ -3,7 +3,7 @@ from pathlib import Path
 from django.conf import settings
 from django.shortcuts import render
 from django.http import Http404, FileResponse
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 
 
 def form_list(request):
